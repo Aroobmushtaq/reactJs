@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { useEffect,useState } from 'react'
 
 function App() {
+  const[data,setData]=useState([])
+  const fetchData=async()=>{
+    const response=await fetch('https://jsonplaceholder.typicode.com/posts')
+    const data=await response.json()
+    console.log(data)
+    setData(data)
+
+  }
+  useEffect(()=>{
+    fetchData()
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>useEffect</h1>
+    {
+      data.map((item)=>{
+        return(
+          <div key={item.id}>
+          <h1>{item.title}</h1>
+           <p>{item.body}</p>
+           </div>
+        )
+      })
+    }
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import Todo from "./componenets/todo"
+
+// function App() {
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+
+//         <Route path="/" element={<Todo />} />
+      
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// }
+
+// export default App;
