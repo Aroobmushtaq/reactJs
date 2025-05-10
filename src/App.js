@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { store } from "./reduxToolKIt/store/store";
 import Product from "./pages/products/Product";
 import Counter from "./pages/counter/Counter";
+import Postes from "./pages/posts/Postes";
+import Search from "./pages/posts/Search";
 function App() {
   return (
     //for redux tool kit practice 
@@ -13,6 +15,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Counter />} />
           <Route path="/product" element={<Product />} />
+          <Route path="/posts" element={<Postes />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </BrowserRouter>
 
