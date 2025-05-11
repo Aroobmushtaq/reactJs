@@ -27,4 +27,7 @@ This is a simple **Post Management App** built using **React**, **Redux Toolkit*
 ## Install Firebase Package
 npm install firebase
 
+## Live Demo:
+You can see the live version here:  
+[Crud App - Live Demo](https://imaginative-licorice-f3cc49.netlify.app/)
 
