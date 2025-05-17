@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { collection, addDoc, getDocs, deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../../config/firebase";
-export const createPost = createAsyncThunk("post/createPost", async (postData) => {
+export const createPost = createAsyncThunk("post/createPost", async (postData, { rejectWithValue }) => {
     try {
         const docRef = await addDoc(collection(db, "posts"), postData);
-        console.log("Document written with ID: ", docRef.id);
         return {
             id: docRef.id,
             ...postData,
-        }
+        };
     } catch (e) {
         console.error("Error adding document: ", e);
+        return rejectWithValue("Failed to add post");
     }
-}
-)
+});
+
 export const getPosts = createAsyncThunk(
     "posts/getPosts",
     async () => {
@@ -64,9 +64,12 @@ export const postSlice = createSlice({
             })
             .addCase(createPost.fulfilled, (state, action) => {
                 state.loading = false;
-                state.posts = [action.payload, ...state.posts];
+                if (action.payload) {  // Check if payload is not undefined
+                    state.posts = [action.payload, ...state.posts];
+                }
                 state.error = null;
             })
+
             .addCase(createPost.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
@@ -95,13 +98,13 @@ export const postSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
-             .addCase(updatePost.pending, (state) => {
+            .addCase(updatePost.pending, (state) => {
                 state.loading = true;
             })
             .addCase(updatePost.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log("action.payload.id",action);
-                
+                console.log("action.payload.id", action);
+
                 state.posts = state.posts.map((post) =>
                     post.id === action.payload.id ? action.payload : post
                 );
@@ -110,6 +113,6 @@ export const postSlice = createSlice({
             .addCase(updatePost.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
-            }); 
+            });
     }
 })
