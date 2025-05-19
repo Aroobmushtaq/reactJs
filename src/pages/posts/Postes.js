@@ -71,10 +71,6 @@ function Postes() {
         console.log(id)
         dispatch(deletePost(id))
     }
-    // const handleUpdtae = (id) => {
-    //     console.log(id)
-    //     dispatch(updatePost(id))
-    // }
     useEffect(() => {
         dispatch(getPosts());
     }, []);
@@ -140,7 +136,3 @@ function Postes() {
 }
 
 export default Postes
-
-
-
-
